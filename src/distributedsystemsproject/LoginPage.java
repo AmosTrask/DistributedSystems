@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 
 import WebService.TTTWebService;
 import WebService.TTTWebService_Service;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,32 +26,32 @@ import WebService.TTTWebService_Service;
  */
 public class LoginPage extends JFrame implements ActionListener{
     
-    private JTextField usernameLogField;
-    private JTextField passwordLogField;
+    private JTextField usernameField;
+    private JTextField passwordField;
     private JButton goToRegistrationButton;
     private JButton logButton;
-    private TTTWebService proxy;
-    private TTTWebService_Service link;
+    private final TTTWebService proxy;
+    private final TTTWebService_Service link;
     
     public LoginPage () {
+        this.link = new TTTWebService_Service();
+        this.proxy = link.getTTTWebServicePort();
         this.createPage();
-        link = new TTTWebService_Service();
-        proxy = link.getTTTWebServicePort();
     }
     
     private void createPage(){
         this.setTitle("Login");
         this.setLayout(new GridLayout(3,2));
         
-        this.usernameLogField = new JTextField();
-        this.passwordLogField = new JTextField();
+        this.usernameField = new JTextField();
+        this.passwordField = new JTextField();
         this.goToRegistrationButton = new JButton("register");
         this.logButton = new JButton("Sign in");
         
         this.add(new JLabel("username"));
-        this.add(usernameLogField);
+        this.add(usernameField);
         this.add(new JLabel("password"));
-        this.add(passwordLogField);
+        this.add(passwordField);
         this.add(goToRegistrationButton);
         this.add(logButton);
         
@@ -76,7 +77,14 @@ public class LoginPage extends JFrame implements ActionListener{
             this.dispose();
             RegistrationPage registrationPage = new RegistrationPage();
         } else if (source == logButton) {
-        
+            int result = proxy.login(this.usernameField.getText(), this.passwordField.getText());
+            if (result == -1 || result == 0) {
+                JOptionPane.showMessageDialog(this, "Wrong credentials");
+            } else {
+                JOptionPane.showMessageDialog(this, "Connected");
+                this.dispose();
+                MainPage mainPage = new MainPage(this.usernameField.getText(), result);
+            }
         }
     }
 }

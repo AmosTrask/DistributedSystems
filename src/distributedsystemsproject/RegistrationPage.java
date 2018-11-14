@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 
 import WebService.TTTWebService;
 import WebService.TTTWebService_Service;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -29,45 +30,41 @@ public class RegistrationPage extends JFrame implements ActionListener {
     private JTextField surnameField;
     private JTextField usernameField;
     private JTextField passwordField;
-    private JTextField emailField;
     
     private JButton registrationButton;
     private JButton clearButton;
     
-    private TTTWebService proxy;
-    private TTTWebService_Service link;
+    private final TTTWebService proxy;
+    private final TTTWebService_Service link;
     
     public RegistrationPage() {
+        this.link = new TTTWebService_Service();
+        this.proxy = link.getTTTWebServicePort();
         this.createPage();
-        link = new TTTWebService_Service();
-        proxy = link.getTTTWebServicePort();
     }
     
     private void createPage() {
         
         this.setTitle("Register");
-        this.setLayout(new GridLayout(6,2));
+        this.setLayout(new GridLayout(5,2));
         
         this.nameField = new JTextField();
         this.surnameField = new JTextField();
         this.usernameField = new JTextField();
         this.passwordField = new JTextField();
-        this.emailField = new JTextField();
         this.registrationButton = new JButton("register");
         this.clearButton = new JButton("clear");
         
-        this.add(nameField);
+        this.add(this.nameField);
         this.add(new JLabel("name"));
-        this.add(surnameField);
+        this.add(this.surnameField);
         this.add(new JLabel("surname"));
-        this.add(usernameField);
+        this.add(this.usernameField);
         this.add(new JLabel("username"));
-        this.add(passwordField);
+        this.add(this.passwordField);
         this.add(new JLabel("password"));
-        this.add(emailField);
-        this.add(new JLabel("email"));
-        this.add(registrationButton);
-        this.add(clearButton);
+        this.add(this.registrationButton);
+        this.add(this.clearButton);
         
         this.registrationButton.addActionListener(this);
         this.clearButton.addActionListener(this);
@@ -88,6 +85,21 @@ public class RegistrationPage extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
         Object source = event.getSource();
+        if (source == this.registrationButton) {
+            String answer = proxy.register(usernameField.getText(), passwordField.getText(), nameField.getText(), surnameField.getText());
+            if (answer.contains("ERROR")) {
+                JOptionPane.showMessageDialog(this, answer);
+            } else {
+                this.dispose();
+                JOptionPane.showMessageDialog(this, "Registered");
+                LoginPage loginPage = new LoginPage();
+            }
+        } else if (source == this.clearButton) {
+            this.surnameField.setText("");
+            this.passwordField.setText("");
+            this.nameField.setText("");
+            this.surnameField.setText("");
+        }
     }
 
 }
