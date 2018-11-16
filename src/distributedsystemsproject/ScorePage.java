@@ -28,31 +28,24 @@ public class ScorePage extends JFrame {
     private JLabel lossesLabel;
     private JLabel drawsLabel;
     private final List<Game> games;
-    private final List<Game> wonGames;
-    private final List<Game> drawGames;
-    private final List<Game> lostGames;
-    private final int userId;
-    private final String userUsername;
+    private User user;
     
-    public ScorePage(String userUsername, int userId) {
+    public ScorePage(User user) {
         this.link = new TTTWebService_Service();
         this.proxy = link.getTTTWebServicePort();
         this.games = new ArrayList<>();
-        this.wonGames = new ArrayList<>();
-        this.drawGames = new ArrayList<>();
-        this.lostGames = new ArrayList<>();
-        this.userId = userId;
-        this.userUsername = userUsername;
+        this.user = user;
         this.createPage();
     }
     
-    public void createPage() {
+    private void createPage() {
         this.setTitle("Score");
         this.setLayout(new GridLayout(3,1));
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
-        this.winsLabel = new JLabel();
-        this.lossesLabel = new JLabel();
-        this.drawsLabel = new JLabel();
+        this.winsLabel = new JLabel(" ");
+        this.lossesLabel = new JLabel(" ");
+        this.drawsLabel = new JLabel(" ");
         
         this.add(this.winsLabel);
         this.add(this.lossesLabel);
@@ -60,36 +53,38 @@ public class ScorePage extends JFrame {
         
         this.pack();
         this.setVisible(true);
+        this.showAllUsersGames();
     }
     
-    public void showAllUsersGames() throws Exception {
-        String answer = proxy.showAllMyGames(this.userId);
+    public void showAllUsersGames() {
+        String answer = proxy.showAllMyGames(this.user.getId());
         if (answer.contains("Error")) {
             JOptionPane.showMessageDialog(this, answer);
         } else {
             String[] lines = answer.split("/n");
             for (String line: lines) {
                 String[] items = line.split(","); 
-                Game game = new Game(Integer.parseInt(items[0]), items[1], items[2], new SimpleDateFormat("dd/MM/yyyy").parse(items[3]));
+                Game game = new Game(Integer.parseInt(items[0]), items[1], items[2]);
                 this.games.add(game);
             }
         }
+        this.gamesAnalysis();
     }
     
-    public void fillGamesArray() {
+    public void gamesAnalysis() {
         for (Game game: this.games) {
             String answer = proxy.getGameState(game.getGameId());
             game.setState(Integer.parseInt(answer));
-            if ((this.userUsername.equals(game.getPlayer1()) && game.getState() == 1) || (this.userUsername.equals(game.getPlayer2()) && game.getState() == 2)) {
-                this.wonGames.add(game);
+            if ((this.user.getUsername().equals(game.getPlayer1()) && game.getState() == 1) || (this.user.getUsername().equals(game.getPlayer2()) && game.getState() == 2)) {
+                this.user.addWin(game);
             } else if (game.getState() == 3) {
-                this.drawGames.add(game);
+                this.user.addDraw(game);
             } else {
-                this.lostGames.add(game);
+                this.user.addLost(game);
             }
         }
-        this.winsLabel.setText("Wins: " + this.wonGames.size());
-        this.lossesLabel.setText("Lost: " + this.lostGames.size());
-        this.drawsLabel.setText("Draws: " + this.drawGames.size());
+        this.winsLabel.setText("Wins: " + this.user.getWonNb());
+        this.lossesLabel.setText("Lost: " + this.user.getLostNb());
+        this.drawsLabel.setText("Draws: " + this.user.getDrawNb());
     }
 }

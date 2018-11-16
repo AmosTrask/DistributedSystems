@@ -42,6 +42,7 @@ public class LoginPage extends JFrame implements ActionListener{
     private void createPage(){
         this.setTitle("Login");
         this.setLayout(new GridLayout(3,2));
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         this.usernameField = new JTextField();
         this.passwordField = new JTextField();
@@ -77,13 +78,14 @@ public class LoginPage extends JFrame implements ActionListener{
             this.dispose();
             RegistrationPage registrationPage = new RegistrationPage();
         } else if (source == logButton) {
-            int result = proxy.login(this.usernameField.getText(), this.passwordField.getText());
-            if (result == -1 || result == 0) {
+            int userId = proxy.login(this.usernameField.getText(), this.passwordField.getText());
+            if (userId == -1 || userId == 0) {
                 JOptionPane.showMessageDialog(this, "Wrong credentials");
             } else {
                 JOptionPane.showMessageDialog(this, "Connected");
                 this.dispose();
-                MainPage mainPage = new MainPage(this.usernameField.getText(), result);
+                User user = new User(userId, this.usernameField.getText());
+                MainPage mainPage = new MainPage(user);
             }
         }
     }

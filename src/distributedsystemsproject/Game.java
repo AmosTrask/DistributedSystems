@@ -12,24 +12,31 @@ import java.util.Date;
  * @author 18093396 Vincent Redouté
  */
 public class Game {
+
     private int gameId;
     private String player1;
     private String player2;
     private Date started;
     private String winner;
     private int state;
-    
-    public Game(int gameId, String player1, String player2, Date started) {
+    private String nextPlayer;
+
+    public Game(int gameId, String player1, String player2) {
         this.gameId = gameId;
         this.player1 = player1;
         this.player2 = player2;
         this.started = started;
     }
-    
+
+    public Game(int gameId, String player1) {
+        this.gameId = gameId;
+        this.player1 = player1;
+    }
+
     public String getWinner() {
         return this.winner;
     }
-    
+
     public void setWinner(String winner) {
         this.winner = winner;
     }
@@ -72,6 +79,14 @@ public class Game {
 
     public void setState(int state) {
         this.state = state;
+    }
+
+    public String getNextPlayer() {
+        return this.nextPlayer;
+    }
+
+    public void setNextPlayer(String nextPlayer) {
+        this.nextPlayer = nextPlayer;
     }
     
     
