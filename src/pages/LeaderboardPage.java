@@ -91,6 +91,7 @@ public class LeaderboardPage extends JFrame implements ActionListener{
             for (Map.Entry<String, User> entry : this.userMap.entrySet()) {
                 this.players.add(entry.getValue());
             }
+            
             Collections.sort(this.players);
 
             String[] columnNames = {"Username",

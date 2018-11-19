@@ -74,28 +74,22 @@ public class GamePage extends JFrame implements ActionListener, Runnable {
                 if (this.game.getPlayer2() == null) {
                     //Player 2 just joigned the game, this method is only accessed by player1
                     this.turnLabel.setText("Your turn");
+                    this.opponentLabel.setText("Your opponent is here");
                     this.isPlaying = true;
                 }
                 String boardAnswer = this.proxy.getBoard(this.game.getGameId());
-                System.out.println(boardAnswer);
                 if (boardAnswer.contains("ERROR-DB")) {
                     JOptionPane.showMessageDialog(this, boardAnswer);
                 } else if (!boardAnswer.equals("ERROR-NOMOVES")) {
 
                     String moves_str[] = boardAnswer.split("\n");
                     String[] items = moves_str[moves_str.length - 1].split(",");
-                    for (String s : items) {
-                        System.out.println(s);
-                    }
                     Move lastMove = new Move(Integer.parseInt(items[0]), Integer.parseInt(items[1]), Integer.parseInt(items[2]));
-                    System.out.println(lastMove);
                     this.moves.add(lastMove);
 
                     if (moves_str.length == 2 && player1) {
                         this.game.setPlayer2(items[2]);
                     }
-
-                    System.out.println(lastMove.getUserId());
 
                     if (moves_str.length % 2 == 0 && player1) {
                         this.turnLabel.setText("Your turn");

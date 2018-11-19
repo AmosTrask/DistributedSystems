@@ -41,7 +41,7 @@ public class User implements Comparable{
     public int compareTo(Object comparestu) {
         int compareWon =((User)comparestu).getWonNb();
         /* For Ascending order*/
-        return this.wonGames.size() - compareWon;
+        return  compareWon - this.wonGames.size();
 
         /* For Descending order do like this */
         //return compareage-this.studentage;
