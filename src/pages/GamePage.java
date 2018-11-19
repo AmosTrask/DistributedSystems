@@ -171,7 +171,7 @@ public class GamePage extends JFrame implements ActionListener, Runnable {
         if (player1) {
             this.opponentLabel = new JLabel("Waiting for an opponent");
         } else {
-            this.opponentLabel = new JLabel(this.game.getPlayer1());
+            this.opponentLabel = new JLabel("Your opponent is here");
 
         }
 
