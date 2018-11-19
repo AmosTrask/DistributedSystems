@@ -70,7 +70,7 @@ public class ScorePage extends JFrame implements ActionListener {
         if (answer.contains("Error")) {
             JOptionPane.showMessageDialog(this, answer);
         } else {
-            String[] lines = answer.split("/n");
+            String[] lines = answer.split("\n");
             for (String line: lines) {
                 String[] items = line.split(","); 
                 Game game = new Game(Integer.parseInt(items[0]), items[1], items[2]);

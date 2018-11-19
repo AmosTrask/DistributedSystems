@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 /**
@@ -70,7 +71,7 @@ public class LeaderboardPage extends JFrame implements ActionListener{
         if (answer.contains("Error")) {
             JOptionPane.showMessageDialog(this, answer);
         } else {
-            String[] lines = answer.split("/n");
+            String[] lines = answer.split("\n");
             for (String line : lines) {
                 String[] items = line.split(",");
                 Game game = new Game(Integer.parseInt(items[0]), items[1], items[2]);
@@ -93,9 +94,9 @@ public class LeaderboardPage extends JFrame implements ActionListener{
             Collections.sort(this.players);
 
             String[] columnNames = {"Username",
-                "Number of win",
-                "Number of loss",
-                "Number of draw"};
+                "Wins",
+                "Losses",
+                "Draws"};
             Object[][] data = new Object[this.players.size()][4];
 
             for (int i = 0; i < this.players.size(); i++) {
@@ -105,8 +106,12 @@ public class LeaderboardPage extends JFrame implements ActionListener{
                 data[i][3] = this.players.get(i).getDrawNb();
             }
             
+            
+            JPanel tablePanel = new JPanel(new BorderLayout());
             JTable table = new JTable(data, columnNames);
-            this.mainPanel.add(table, BorderLayout.SOUTH);
+            tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
+            tablePanel.add(table, BorderLayout.SOUTH);
+            this.mainPanel.add(tablePanel, BorderLayout.SOUTH);
         }
     }
 

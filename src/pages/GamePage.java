@@ -74,6 +74,7 @@ public class GamePage extends JFrame implements ActionListener, Runnable {
                 if (this.game.getPlayer2() == null) {
                     //Player 2 just joigned the game only accessed by player1
                     this.turnLabel.setText("Your turn");
+                    this.opponentLabel.setText(this.game.getPlayer2());
                     this.isPlaying = true;
                 }
                 String boardAnswer = this.proxy.getBoard(this.game.getGameId());
@@ -147,12 +148,10 @@ public class GamePage extends JFrame implements ActionListener, Runnable {
                                 this.proxy.setGameState(this.game.getGameId(), 3);
                                 JOptionPane.showMessageDialog(this, "Draw");
                                 gameRunning = false;
-
                                 break;
                         }
 
-                        MainPage mainPage = new MainPage(this.user);
-                        this.dispose();
+                       
                     }
 
                 }
@@ -164,7 +163,8 @@ public class GamePage extends JFrame implements ActionListener, Runnable {
                 Logger.getLogger(GamePage.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
+        MainPage mainPage = new MainPage(this.user);
+        this.dispose();
     }
 
     private void createPage() {
