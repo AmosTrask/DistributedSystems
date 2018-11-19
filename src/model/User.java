@@ -40,11 +40,7 @@ public class User implements Comparable{
     @Override
     public int compareTo(Object comparestu) {
         int compareWon =((User)comparestu).getWonNb();
-        /* For Ascending order*/
-        return  compareWon - this.wonGames.size();
-
-        /* For Descending order do like this */
-        //return compareage-this.studentage;
+        return compareWon - this.wonGames.size();
     }
     
     public void addWin(Game game) {

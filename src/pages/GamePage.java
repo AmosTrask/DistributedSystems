@@ -71,7 +71,7 @@ public class GamePage extends JFrame implements ActionListener, Runnable {
                 JOptionPane.showMessageDialog(this, gameStateAnswer);
             } else {
 
-                if (this.game.getPlayer2() == null) {
+                if (this.game.getPlayer2() == null && gameStateAnswer.equals("0")) {
                     //Player 2 just joigned the game, this method is only accessed by player1
                     this.turnLabel.setText("Your turn");
                     this.opponentLabel.setText("Your opponent is here");
