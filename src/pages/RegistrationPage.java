@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import WebService.TTTWebService;
 import WebService.TTTWebService_Service;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 
 /**
  *
@@ -29,7 +30,7 @@ public class RegistrationPage extends JFrame implements ActionListener {
     private JTextField nameField;
     private JTextField surnameField;
     private JTextField usernameField;
-    private JTextField passwordField;
+    private JPasswordField passwordField;
     
     private JButton registrationButton;
     private JButton clearButton;
@@ -51,7 +52,7 @@ public class RegistrationPage extends JFrame implements ActionListener {
         this.nameField = new JTextField();
         this.surnameField = new JTextField();
         this.usernameField = new JTextField();
-        this.passwordField = new JTextField();
+        this.passwordField = new JPasswordField();
         this.registrationButton = new JButton("register");
         this.clearButton = new JButton("clear");
         

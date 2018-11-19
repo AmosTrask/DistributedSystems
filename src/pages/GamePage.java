@@ -72,9 +72,8 @@ public class GamePage extends JFrame implements ActionListener, Runnable {
             } else {
 
                 if (this.game.getPlayer2() == null) {
-                    //Player 2 just joigned the game only accessed by player1
+                    //Player 2 just joigned the game, this method is only accessed by player1
                     this.turnLabel.setText("Your turn");
-                    this.opponentLabel.setText(this.game.getPlayer2());
                     this.isPlaying = true;
                 }
                 String boardAnswer = this.proxy.getBoard(this.game.getGameId());

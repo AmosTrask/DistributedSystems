@@ -20,6 +20,7 @@ import WebService.TTTWebService;
 import WebService.TTTWebService_Service;
 import model.User;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 
 /**
  *
@@ -28,7 +29,7 @@ import javax.swing.JOptionPane;
 public class LoginPage extends JFrame implements ActionListener{
     
     private JTextField usernameField;
-    private JTextField passwordField;
+    private JPasswordField passwordField;
     private JButton goToRegistrationButton;
     private JButton logButton;
     private final TTTWebService proxy;
@@ -46,7 +47,7 @@ public class LoginPage extends JFrame implements ActionListener{
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         this.usernameField = new JTextField();
-        this.passwordField = new JTextField();
+        this.passwordField = new JPasswordField();
         this.goToRegistrationButton = new JButton("register");
         this.logButton = new JButton("Sign in");
         

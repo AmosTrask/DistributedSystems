@@ -95,14 +95,19 @@ public class JoinGamePage extends JFrame implements ActionListener {
                 }
             });
             
+            JPanel tablePanel = new JPanel(new BorderLayout());
+            tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
+            tablePanel.add(table, BorderLayout.SOUTH);
+            
             JPanel southPanel = new JPanel(new BorderLayout());
             southPanel.add(myLabel, BorderLayout.NORTH);
-            southPanel.add(table, BorderLayout.SOUTH);
+            southPanel.add(tablePanel, BorderLayout.SOUTH);
             
             mainPanel.add(this.backButton, BorderLayout.NORTH);
             mainPanel.add(southPanel, BorderLayout.SOUTH);
             
             this.add(mainPanel);
+            this.pack();
         }
 
     }
