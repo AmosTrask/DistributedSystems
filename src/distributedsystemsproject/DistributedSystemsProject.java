@@ -5,6 +5,8 @@
  */
 package distributedsystemsproject;
 
+import pages.LoginPage;
+
 /**
  *
  * @author 18093396 Vincent Redouté

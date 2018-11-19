@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package distributedsystemsproject;
+package pages;
 
 import WebService.TTTWebService;
 import WebService.TTTWebService_Service;
+import model.Game;
+import model.User;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,7 +21,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -28,10 +28,11 @@ import javax.swing.event.ListSelectionListener;
  */
 public class JoinGamePage extends JFrame implements ActionListener {
 
-    private User user;
+    private final User user;
     private final TTTWebService proxy;
     private final TTTWebService_Service link;
     private List<Game> games;
+    private JButton backButton;
 
     public JoinGamePage(User user) {
         this.user = user;
@@ -51,6 +52,8 @@ public class JoinGamePage extends JFrame implements ActionListener {
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         JLabel myLabel = new JLabel("Click on a row to join a game");
+        this.backButton = new JButton("Back");
+        this.backButton.addActionListener(this);
 
         String[] columnNames = {"Game id",
             "Player username",
@@ -91,8 +94,14 @@ public class JoinGamePage extends JFrame implements ActionListener {
                     }
                 }
             });
-            mainPanel.add(table, BorderLayout.SOUTH);
-            mainPanel.add(myLabel, BorderLayout.NORTH);
+            
+            JPanel southPanel = new JPanel(new BorderLayout());
+            southPanel.add(myLabel, BorderLayout.NORTH);
+            southPanel.add(table, BorderLayout.SOUTH);
+            
+            mainPanel.add(this.backButton, BorderLayout.NORTH);
+            mainPanel.add(southPanel, BorderLayout.SOUTH);
+            
             this.add(mainPanel);
         }
 
@@ -100,7 +109,11 @@ public class JoinGamePage extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        JButton button = (JButton) event.getSource();
+        Object source = event.getSource();
+        if (source == this.backButton) {
+            this.dispose();
+            MainPage mainPage = new MainPage(this.user);
+        }
     }
 
 }

@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package distributedsystemsproject;
+package pages;
 
 import WebService.TTTWebService;
 import WebService.TTTWebService_Service;
+import model.Game;
+import model.User;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,7 +41,7 @@ public class MainPage extends JFrame implements ActionListener {
 
     private void createPage() {
         this.setTitle("Main");
-        this.setLayout(new GridLayout(3, 1));
+        this.setLayout(new GridLayout(4, 1));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         this.newGameButton = new JButton("New game");
@@ -61,22 +63,6 @@ public class MainPage extends JFrame implements ActionListener {
         this.setVisible(true);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent event) {
-        Object source = event.getSource();
-        if (source == this.newGameButton) {
-            this.createGame();
-        } else if (source == this.myScoreButton) {
-            ScorePage scorePage = new ScorePage(this.user);
-        } else if (source == this.joinGameButton) {
-            this.dispose();
-            JoinGamePage joinGamePage = new JoinGamePage(this.user);
-        } else if (source == this.leagueButton) {
-            this.dispose();
-            LeaderboardPage leaderboardPage = new LeaderboardPage(this.user);
-        }
-    }
-
     private void createGame() {
         String newGameAnswer = this.proxy.newGame(this.user.getId());
         if (newGameAnswer.contains("ERROR")) {
@@ -93,4 +79,20 @@ public class MainPage extends JFrame implements ActionListener {
         }
     }
 
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        Object source = event.getSource();
+        if (source == this.newGameButton) {
+            this.createGame();
+        } else if (source == this.myScoreButton) {
+            this.dispose();
+            ScorePage scorePage = new ScorePage(this.user);
+        } else if (source == this.joinGameButton) {
+            this.dispose();
+            JoinGamePage joinGamePage = new JoinGamePage(this.user);
+        } else if (source == this.leagueButton) {
+            this.dispose();
+            LeaderboardPage leaderboardPage = new LeaderboardPage(this.user);
+        }
+    }
 }

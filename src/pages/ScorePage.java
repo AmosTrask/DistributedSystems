@@ -3,14 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package distributedsystemsproject;
+package pages;
 
 import WebService.TTTWebService;
 import WebService.TTTWebService_Service;
+import model.Game;
+import model.User;
 import java.awt.GridLayout;
-import java.text.SimpleDateFormat;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JButton;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,7 +24,7 @@ import javax.swing.JOptionPane;
  *
  * @author 18093396 Vincent Redouté
  */
-public class ScorePage extends JFrame {
+public class ScorePage extends JFrame implements ActionListener {
     
     private final TTTWebService proxy;
     private final TTTWebService_Service link;
@@ -29,6 +33,7 @@ public class ScorePage extends JFrame {
     private JLabel drawsLabel;
     private final List<Game> games;
     private User user;
+    private JButton backButton;
     
     public ScorePage(User user) {
         this.link = new TTTWebService_Service();
@@ -40,13 +45,17 @@ public class ScorePage extends JFrame {
     
     private void createPage() {
         this.setTitle("Score");
-        this.setLayout(new GridLayout(3,1));
+        this.setLayout(new GridLayout(4,1));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         this.winsLabel = new JLabel(" ");
         this.lossesLabel = new JLabel(" ");
         this.drawsLabel = new JLabel(" ");
+        this.backButton = new JButton("Back");
         
+        this.backButton.addActionListener(this);
+        
+        this.add(this.backButton);
         this.add(this.winsLabel);
         this.add(this.lossesLabel);
         this.add(this.drawsLabel);
@@ -86,5 +95,14 @@ public class ScorePage extends JFrame {
         this.winsLabel.setText("Wins: " + this.user.getWonNb());
         this.lossesLabel.setText("Lost: " + this.user.getLostNb());
         this.drawsLabel.setText("Draws: " + this.user.getDrawNb());
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        Object source = event.getSource();
+        if (source == this.backButton) {
+            this.dispose();
+            MainPage mainPage = new MainPage(this.user);
+        }
     }
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package distributedsystemsproject;
+package pages;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 
 import WebService.TTTWebService;
 import WebService.TTTWebService_Service;
+import model.User;
 import javax.swing.JOptionPane;
 
 /**

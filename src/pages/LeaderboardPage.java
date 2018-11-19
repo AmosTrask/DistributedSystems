@@ -3,35 +3,40 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package distributedsystemsproject;
+package pages;
 
 import WebService.TTTWebService;
 import WebService.TTTWebService_Service;
-import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import model.Game;
+import model.User;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 
 /**
  *
  * @author 18093396 Vincent Redouté
  */
-public class LeaderboardPage extends JFrame {
+public class LeaderboardPage extends JFrame implements ActionListener{
 
     private final TTTWebService proxy;
     private final TTTWebService_Service link;
-    private JLabel winsLabel;
-    private JLabel lossesLabel;
-    private JLabel drawsLabel;
     private List<User> players;
     private Map<String, User> userMap;
     private User user;
+    private JButton backButton;
+    private JPanel mainPanel;
 
     public LeaderboardPage(User user) {
         this.link = new TTTWebService_Service();
@@ -44,10 +49,18 @@ public class LeaderboardPage extends JFrame {
 
     private void createPage() {
         this.setTitle("Score");
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);   
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        
+        this.backButton = new JButton("Back");
+        this.backButton.addActionListener(this);
+        
+        this.mainPanel = new JPanel(new BorderLayout());
+        this.mainPanel.add(this.backButton, BorderLayout.NORTH);
         
         this.getLeagueTable();
 
+        this.add(this.mainPanel);
+        
         this.pack();
         this.setVisible(true);
     }
@@ -93,7 +106,16 @@ public class LeaderboardPage extends JFrame {
             }
             
             JTable table = new JTable(data, columnNames);
-            this.add(table);
+            this.mainPanel.add(table, BorderLayout.SOUTH);
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        Object source = event.getSource();
+        if (source == this.backButton) {
+            this.dispose();
+            MainPage mainPage = new MainPage(this.user);
         }
     }
 }
